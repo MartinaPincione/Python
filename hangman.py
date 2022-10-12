@@ -1,28 +1,39 @@
 import random
+from tkinter import Y
 from words import word_list
+from tabulate import tabulate
+
+def print_title():
+    print("\n")
+    print("\n")
+    print("                              ~~ HANGMAN OR BE HANGED ~~ ")
+
+def score_board(wins, losses):
+    mydata = [[wins, losses]]
+    head = ["Wins", "Losses"]
+    print(tabulate(mydata, headers= head, tablefmt="grid"))
+    print("\n")
 
 def get_word():
-    
     print("\n")
     command = input("Would you like to choose your own word (Y) or have a word generated for you (N) : ")
-    #print(command)
     print("\n")
 
     if (command == "Y" or command == "y"):
-        #NOT SURE WHY THIS PART DOESN'T WORK
         word = input("Please enter a word: ")
         print("Scroll down so your fellow player doesn't see the word you typed in!")
         print("\n")
         print("\n")
         print("\n")
         return word.upper()
+
     elif(command == "N" or command == "n"):
         print("A word is being selected for you...")
-        print("\n")
+        print("\n")        
         word = random.choice(word_list)
         return word.upper()
 
-def play(word):
+def play(word, wins, losses):
     word_completion = "_" * len(word)
     guessed = False
     guessed_letters = []
@@ -67,9 +78,12 @@ def play(word):
         print(word_completion)
         print("\n")
     if guessed:
+        wins += 1 
         print("Nice job, you guessed the word! You win!")
     else:
+        losses += 1
         print("Sorry, you ran out of tries. The word was " + word + ". Maybe next time!")
+    return wins, losses
 
 
 
@@ -143,11 +157,21 @@ def display_hangman(tries):
 
 
 def main():
+    print_title()
     word = get_word()
-    play(word)
+    wins = 0
+    losses = 0
+    score_board(wins, losses)
+    wins, losses = play(word, wins, losses)
     while input("Play again? (Y/N) ").upper() == "Y":
         word = get_word()
-        play(word)
+        score_board(wins, losses)
+        wins, losses = play(word, wins, losses)
+    print("\n")
+    print("Your final win and loss streak is")
+    score_board(wins, losses)
+    print("Good game! Hope to see you soon player!")
+    print("\n")
 
 if __name__ == "__main__":
     main()
