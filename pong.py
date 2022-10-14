@@ -115,7 +115,7 @@ while True:
     if (ball.xcor() > 390):
         score_l += 1
         ball.goto(0, 0)
-        ball.dx *= -1
+        ball.dx = -1 # reset ball speed
         pen.clear() #clears what is on the screen so it doesn't write over itself
         pen.write("Player L: {}   Player R: {}".format(score_l, score_r), align = "center", font = ("Times New Roman", 25, "normal")) #default score
 
@@ -128,7 +128,7 @@ while True:
     if (ball.xcor() < -390):
         score_r += 1
         ball.goto(0, 0)
-        ball.dx *= -1
+        ball.dx = -1 # reset ball speed
         pen.clear() #clears what is on the screen so it doesn't write over itself
         pen.write("Player L: {}   Player R: {}".format(score_l, score_r), align = "center", font = ("Times New Roman", 25, "normal")) #default score
 
@@ -140,12 +140,10 @@ while True:
 
     if (ball.xcor() < -340 and (ball.ycor() < paddle_l.ycor() + 50) and (ball.ycor() > paddle_l.ycor() - 50)):
         ball.setx(-340)
-        ball.dx *= -1
+        ball.dx *= -1.5 #increase speed to increment difficulty as gamr continues
 
 
     
 
 
     
-        
-
